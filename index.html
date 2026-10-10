@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>CREW ARCHIVES — Skate and Destroy</title>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&family=Archivo:ital,wdth,wght@1,125,900&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
@@ -20,6 +20,9 @@ body{background:#111;color:#fff;font-family:Impact,'Arial Narrow',sans-serif;mar
 .hard-r{box-shadow:5px 5px 0 var(--red)}
 .grain{background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.04) 0 2px,transparent 2px 6px)}
 .tape{transform:rotate(-3deg)}
+.logo{font-family:'Archivo','Arial Black',Impact,sans-serif;font-style:italic;font-weight:900;font-stretch:125%;font-variation-settings:'wdth' 125;letter-spacing:-.03em;line-height:.95;text-transform:uppercase;font-size:clamp(26px,6.5vw,54px);white-space:nowrap;background:repeating-linear-gradient(0deg,#fff 0 3px,#c9c9c9 3px 4px);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(2px 2px 0 #000)}
+.logo .amp{background:repeating-linear-gradient(0deg,#e63946 0 3px,#a8202c 3px 4px);-webkit-background-clip:text;background-clip:text;color:transparent;font-size:1.05em;margin:0 -.04em}
+.tag{display:inline-block;background:#f1c40f;color:#111;font:700 clamp(9px,2.2vw,12px)/1 'Courier New',monospace;letter-spacing:.12em;padding:4px 8px;border:2px solid #111;text-transform:uppercase;margin-top:6px;box-shadow:2px 2px 0 #000}
 </style>
 </head>
 <body>
@@ -71,6 +74,12 @@ const Skull = ({size=56}) => html`<svg width=${size} height=${size} viewBox="0 0
  <path d="M18 8c-4 6-4 12 0 14M32 2c-3 4-3 8 0 10M46 8c4 6 4 12 0 14" stroke="#e63946" strokeWidth="3" fill="none"/>
 </svg>`;
 
+const SkullMark = ({size=40}) => html`<svg width=${size} height=${size} viewBox="0 0 64 64">
+ <path d="M32 6C18 6 10 16 10 28c0 8 4 12 9 15v11h8v-5h4v5h6v-5h4v5h8V43c5-3 9-7 9-15C58 16 46 6 32 6z" fill="#0a0a0a"/>
+ <ellipse cx="22" cy="28" rx="6" ry="7" fill="#e8202a"/><ellipse cx="42" cy="28" rx="6" ry="7" fill="#e8202a"/>
+ <path d="M32 35l-4 8h8z" fill="#e8202a"/>
+</svg>`;
+
 /* ---------- THUMB ---------- */
 const Thumb = ({v,big,playing,progress}) => {
  const s = skOf(v.sk);
@@ -88,13 +97,13 @@ const NAV = ['VIDEOS','MAGAZINE','CREW / SKATERS','SPOTS','SHOP / MERCH'];
 const Header = ({onNav}) => {
  const [open,setOpen] = useState(false);
  return html`<header className="border-b-4 border-[#e63946] bg-black sticky top-0 z-30" style=${{top:'env(safe-area-inset-top,0px)'}}>
-  <div className="bg-[#f1c40f] text-black text-center text-xs body font-black py-1 tracking-widest">★ NUEVA EDICIÓN Nº 07 YA ESTÁ AFUERA — PATINA O MUERE ★</div>
+  <div className="bg-[#f1c40f] text-black text-center text-xs body font-black py-1 tracking-widest">★ CREW ARCHIVES — NUEVA EDICIÓN Nº 07 YA ESTÁ AFUERA — PATINA O MUERE ★</div>
   <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
-   <div className="flex items-center gap-3 cursor-pointer" onClick=${()=>window.scrollTo({top:0,behavior:'smooth'})}>
-    <${Skull}/>
-    <div>
-     <div className="anton text-4xl md:text-5xl leading-none text-white uppercase" style=${{textShadow:'3px 3px 0 #e63946, 5px 5px 0 #000'}}>CREW ARCHIVES</div>
-     <div className="marker text-[#f1c40f] text-lg md:text-xl -mt-1 tape inline-block">SKATE AND DESTROY</div>
+   <div className="flex items-center gap-3 cursor-pointer min-w-0" onClick=${()=>window.scrollTo({top:0,behavior:'smooth'})}>
+    <div className="w-11 h-11 md:w-16 md:h-16 shrink-0 flex items-center justify-center" style=${{background:'repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 4px),#e8202a',border:'3px solid #7a0e14',boxShadow:'3px 3px 0 #000'}}><${SkullMark} size=${40}/></div>
+    <div className="min-w-0">
+     <div className="logo">SKATE<span className="amp">${'&'}</span>DESTROY</div>
+     <div className="tag">LOCAL CREW MAGAZINE VOL. I</div>
     </div>
    </div>
    <button className="md:hidden border-2 border-white p-2" onClick=${()=>setOpen(!open)}><${Ic} d=${I.menu}/></button>
