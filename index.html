@@ -20,9 +20,10 @@ body{background:#111;color:#fff;font-family:Impact,'Arial Narrow',sans-serif;mar
 .hard-r{box-shadow:5px 5px 0 var(--red)}
 .grain{background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.04) 0 2px,transparent 2px 6px)}
 .tape{transform:rotate(-3deg)}
-.logo{font-family:'Archivo','Arial Black',Impact,sans-serif;font-style:italic;font-weight:900;font-stretch:125%;font-variation-settings:'wdth' 125;letter-spacing:-.03em;line-height:.95;text-transform:uppercase;font-size:clamp(26px,6.5vw,54px);white-space:nowrap;background:repeating-linear-gradient(0deg,#fff 0 3px,#c9c9c9 3px 4px);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(2px 2px 0 #000)}
+.logo{font-family:'Archivo','Arial Black',Impact,sans-serif;font-style:italic;font-weight:900;font-stretch:125%;font-variation-settings:'wdth' 125;letter-spacing:-.03em;line-height:.95;text-transform:uppercase;font-size:min(54px,calc((100vw - 92px)/11.6));width:max-content;white-space:nowrap;background:repeating-linear-gradient(0deg,#fff 0 3px,#c9c9c9 3px 4px);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(2px 2px 0 #000)}
 .logo .amp{background:repeating-linear-gradient(0deg,#e63946 0 3px,#a8202c 3px 4px);-webkit-background-clip:text;background-clip:text;color:transparent;font-size:1.05em;margin:0 -.04em}
 .tag{display:inline-block;background:#f1c40f;color:#111;font:700 clamp(9px,2.2vw,12px)/1 'Courier New',monospace;letter-spacing:.12em;padding:4px 8px;border:2px solid #111;text-transform:uppercase;margin-top:6px;box-shadow:2px 2px 0 #000}
+@media(min-width:768px){.logo{font-size:min(54px,calc((100vw - 112px)/11.6))}}
 </style>
 </head>
 <body>
@@ -33,27 +34,28 @@ const html = htm.bind(React.createElement);
 
 /* ---------- DATA ---------- */
 const SKATERS = [
- {id:'raspu',name:'Raspu',nick:'EL PÁJARO',stance:'Regular',years:9,spot:'Skatepark Los Ángeles, Ricardo Vicuña',hue:350,
+ {id:'raspu',ig:'',name:'Raspu',nick:'EL PÁJARO',stance:'Regular',years:9,spot:'Skatepark Los Ángeles, Ricardo Vicuña',hue:350,
   favs:['Kickflip back lip','Frontside 180 nollie','Tre flip'],setup:{deck:'8.25" Maple 7-ply',trucks:'Independent 149',wheels:'54mm 99A',bearings:'Bones Reds'}},
- {id:'boris',name:'Boris',nick:'EL ZORRO',stance:'Goofy',years:6,spot:'Parque Ecuador',hue:45,
+ {id:'boris',ig:'',name:'Boris',nick:'EL ZORRO',stance:'Goofy',years:6,spot:'Parque Ecuador',hue:45,
   favs:['Backside tailslide','Varial flip','Manual a nollie'],setup:{deck:'8.0" Maple 7-ply',trucks:'Thunder 147',wheels:'52mm 101A',bearings:'Swiss'}},
- {id:'droppa',name:'Droppa',nick:'HUESOS',stance:'Regular',years:12,spot:'Costanera Sur',hue:200,
+ {id:'droppa',ig:'',name:'Droppa',nick:'HUESOS',stance:'Regular',years:12,spot:'Costanera Sur',hue:200,
   favs:['Hardflip','Switch bs 180','Noseslide largo'],setup:{deck:'8.5" Maple 8-ply',trucks:'Venture 5.6',wheels:'56mm 99A',bearings:'Bronson G3'}},
- {id:'diego',name:'Diego',nick:'EL TIGRE',stance:'Goofy',years:4,spot:'Skatepark Los Ángeles, Ricardo Vicuña',hue:280,
+ {id:'diego',ig:'',name:'Diego',nick:'EL TIGRE',stance:'Goofy',years:4,spot:'Skatepark Los Ángeles, Ricardo Vicuña',hue:280,
   favs:['Fs boardslide','Ollie al gap','Bs bigspin'],setup:{deck:'7.875" Maple 7-ply',trucks:'Independent 139',wheels:'53mm 100A',bearings:'Bones Swiss'}}
 ];
 const VIDEOS = [
- {id:1,sk:'raspu',title:'KICKFLIP BACK LIP AL RIEL DE LA MUERTE',spot:'Skatepark Los Ángeles, Ricardo Vicuña',filmer:'Cote Cam',date:'03 OCT 2026',dur:'2:41',likes:482,tag:'PARTE COMPLETA',desc:'Raspu se come la plaza entera: rieles, gaps y un back lip que todavía retumba en el barrio. Filmado en fisheye, sin cortes ni piedad.'},
- {id:2,sk:'boris',title:'BORIS VS. EL ESCALERÓN',spot:'Parque Ecuador',filmer:'Pablo VX',date:'28 SEP 2026',dur:'1:58',likes:391,tag:'EDIT',desc:'Doce escalones, un varial flip y cero dudas.'},
- {id:3,sk:'droppa',title:'HARDFLIP EN LA COSTANERA',spot:'Costanera Sur',filmer:'Cote Cam',date:'21 SEP 2026',dur:'3:12',likes:640,tag:'PARTE COMPLETA',desc:'Doce años de calle en tres minutos de pura agresión.'},
- {id:4,sk:'diego',title:'DIEGO SE ADUEÑA DEL BOWL',spot:'Skatepark Los Ángeles, Ricardo Vicuña',filmer:'Maca Lens',date:'15 SEP 2026',dur:'1:34',likes:275,tag:'CLIP',desc:'Cuatro años patinando y ya manda en el cuarto de tubo.'},
- {id:5,sk:'diego',title:'BS BIGSPIN BAJO LA LLUVIA',spot:'Muelle Lenga',filmer:'Pablo VX',date:'09 SEP 2026',dur:'2:05',likes:518,tag:'EDIT',desc:'Mojado, resbaloso y brutal. Diego no entiende de clima.'},
- {id:6,sk:'raspu',title:'NOLLIE FS 180 AL MANUAL PAD',spot:'Barrio Norte',filmer:'Maca Lens',date:'02 SEP 2026',dur:'0:48',likes:203,tag:'CLIP',desc:'Un solo intento. Un solo sonido. Un solo grito.'},
- {id:7,sk:'boris',title:'BS TAILSLIDE AL CAJÓN',spot:'Skatepark Los Ángeles, Ricardo Vicuña',filmer:'Cote Cam',date:'25 AGO 2026',dur:'1:12',likes:338,tag:'CLIP',desc:'Tailslide largo, salida limpia y a otra cosa.'},
- {id:8,sk:'droppa',title:'SWITCH BS 180 AL GAP',spot:'Plaza Perú',filmer:'Pablo VX',date:'17 AGO 2026',dur:'0:56',likes:412,tag:'CLIP',desc:'Switch, de espaldas y sin mirar atrás.'}
+ {id:1,ig:'',sk:'raspu',title:'KICKFLIP BACK LIP AL RIEL DE LA MUERTE',spot:'Skatepark Los Ángeles, Ricardo Vicuña',filmer:'Cote Cam',date:'03 OCT 2026',dur:'2:41',likes:482,tag:'PARTE COMPLETA',desc:'Raspu se come la plaza entera: rieles, gaps y un back lip que todavía retumba en el barrio. Filmado en fisheye, sin cortes ni piedad.'},
+ {id:2,ig:'',sk:'boris',title:'BORIS VS. EL ESCALERÓN',spot:'Parque Ecuador',filmer:'Pablo VX',date:'28 SEP 2026',dur:'1:58',likes:391,tag:'EDIT',desc:'Doce escalones, un varial flip y cero dudas.'},
+ {id:3,ig:'',sk:'droppa',title:'HARDFLIP EN LA COSTANERA',spot:'Costanera Sur',filmer:'Cote Cam',date:'21 SEP 2026',dur:'3:12',likes:640,tag:'PARTE COMPLETA',desc:'Doce años de calle en tres minutos de pura agresión.'},
+ {id:4,ig:'',sk:'diego',title:'DIEGO SE ADUEÑA DEL BOWL',spot:'Skatepark Los Ángeles, Ricardo Vicuña',filmer:'Maca Lens',date:'15 SEP 2026',dur:'1:34',likes:275,tag:'CLIP',desc:'Cuatro años patinando y ya manda en el cuarto de tubo.'},
+ {id:5,ig:'',sk:'diego',title:'BS BIGSPIN BAJO LA LLUVIA',spot:'Muelle Lenga',filmer:'Pablo VX',date:'09 SEP 2026',dur:'2:05',likes:518,tag:'EDIT',desc:'Mojado, resbaloso y brutal. Diego no entiende de clima.'},
+ {id:6,ig:'',sk:'raspu',title:'NOLLIE FS 180 AL MANUAL PAD',spot:'Barrio Norte',filmer:'Maca Lens',date:'02 SEP 2026',dur:'0:48',likes:203,tag:'CLIP',desc:'Un solo intento. Un solo sonido. Un solo grito.'},
+ {id:7,ig:'',sk:'boris',title:'BS TAILSLIDE AL CAJÓN',spot:'Skatepark Los Ángeles, Ricardo Vicuña',filmer:'Cote Cam',date:'25 AGO 2026',dur:'1:12',likes:338,tag:'CLIP',desc:'Tailslide largo, salida limpia y a otra cosa.'},
+ {id:8,ig:'',sk:'droppa',title:'SWITCH BS 180 AL GAP',spot:'Plaza Perú',filmer:'Pablo VX',date:'17 AGO 2026',dur:'0:56',likes:412,tag:'CLIP',desc:'Switch, de espaldas y sin mirar atrás.'}
 ];
 const HOF = ['Droppa — Hardflip, Costanera','Diego — Bigspin, Muelle','Raspu — Back lip, Ricardo Vicuña','Boris — Escalerón 12'];
 const skOf = id => SKATERS.find(s=>s.id===id);
+const igEmbed = u => u.split('?')[0].replace(/\/$/,'')+'/embed';
 
 /* ---------- ICONS ---------- */
 const Ic = ({d,size=20,fill='none'}) => html`<svg width=${size} height=${size} viewBox="0 0 24 24" fill=${fill} stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" dangerouslySetInnerHTML=${{__html:d}}/>`;
@@ -106,8 +108,8 @@ const Header = ({onNav}) => {
      <div className="tag">LOCAL CREW MAGAZINE VOL. I</div>
     </div>
    </div>
-   <button className="md:hidden border-2 border-white p-2" onClick=${()=>setOpen(!open)}><${Ic} d=${I.menu}/></button>
   </div>
+  <button onClick=${()=>setOpen(!open)} className="md:hidden w-full flex items-center justify-between anton uppercase tracking-widest text-lg px-4 py-2 bg-[#1a1a1a] border-t-2 border-[#333]"><span>MENÚ</span><${Ic} d=${open?I.x:I.menu}/></button>
   <nav className=${(open?'block':'hidden')+' md:block border-t-2 border-[#333] bg-[#1a1a1a]'}>
    <ul className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row md:gap-1">
     ${NAV.map(n=>html`<li key=${n}><button onClick=${()=>{setOpen(false);onNav(n)}} className="anton uppercase tracking-widest text-lg px-4 py-2 w-full text-left hover:bg-[#e63946] hover:text-black transition-colors">${n}</button></li>`)}
@@ -122,24 +124,25 @@ const Hero = ({v,likes,liked,onLike,onProfile}) => {
  const [progress,setProgress] = useState(0);
  useEffect(()=>{setPlaying(false);setProgress(0)},[v.id]);
  useEffect(()=>{
-  if(!playing) return;
+  if(!playing||v.ig) return;
   const t = setInterval(()=>setProgress(p=>p>=100?(setPlaying(false),0):p+0.8),100);
   return ()=>clearInterval(t);
  },[playing]);
  const s = skOf(v.sk);
  return html`<section className="border-4 border-white bg-[#1a1a1a] hard-r">
-  <div className="relative cursor-pointer" onClick=${()=>setPlaying(!playing)}>
+  ${v.ig && playing ? html`<div className="bg-black border-b-4 border-white flex flex-col items-center py-3"><iframe src=${igEmbed(v.ig)} title=${v.title} className="w-full max-w-[400px] h-[560px] border-0 bg-white" allowFullScreen></iframe><button onClick=${()=>setPlaying(false)} className="mt-3 anton uppercase tracking-widest bg-[#f1c40f] text-black px-4 py-1 border-4 border-black hard">← VOLVER A LA PORTADA</button></div>` : html`<div className="relative cursor-pointer" onClick=${()=>setPlaying(!playing)}>
    <${Thumb} v=${v} big playing=${playing} progress=${progress}/>
    <div className="absolute inset-0 flex items-center justify-center">
     <div className=${'w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#e63946] border-4 border-black hard flex items-center justify-center text-white hover:scale-110 transition-transform '+(playing?'opacity-50':'')}>
      <${Ic} d=${playing?I.pause:I.play} size=${40}/>
     </div>
    </div>
-  </div>
+  </div>`}
   <div className="p-4 md:p-6 body">
    <div className="flex flex-wrap items-center gap-2 mb-2">
     <span className="bg-[#e63946] text-black text-xs font-black px-2 py-1 border-2 border-black">VIDEO DEL MES</span>
     <span className="text-xs text-gray-400">${v.date} · ${v.dur} · ${v.spot}</span>
+    ${v.ig && html`<a href=${v.ig} target="_blank" rel="noopener noreferrer" className="text-xs font-black bg-white text-black px-2 py-1 border-2 border-black">VER EN INSTAGRAM ↗</a>`}
    </div>
    <h2 className="anton text-3xl md:text-5xl uppercase leading-none mb-3">${v.title}</h2>
    <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm mb-3">
@@ -191,6 +194,7 @@ const Card = ({v,likes,liked,active,onPick,onLike}) => html`<article className=$
  <div className="p-3 body">
   <h4 onClick=${()=>onPick(v.id)} className="anton uppercase text-lg leading-tight cursor-pointer hover:text-[#f1c40f]">${v.title}</h4>
   <div className="text-xs text-gray-400 mt-1">${skOf(v.sk).name} · ${v.spot} · ${v.date}</div>
+  ${v.ig && html`<a href=${v.ig} target="_blank" rel="noopener noreferrer" className="inline-block mt-2 text-xs font-bold text-[#f1c40f] underline">VER EN INSTAGRAM ↗</a>`}
   <button onClick=${onLike} className=${'mt-3 anton uppercase text-sm tracking-wider px-3 py-1 border-2 border-black flex items-center gap-1 '+(liked?'bg-[#e63946] text-white':'bg-[#f1c40f] text-black')}><${Ic} d=${I.flame} size=${16} fill=${liked?'currentColor':'none'}/> HYPE ${likes}</button>
  </div>
 </article>`;
@@ -244,6 +248,7 @@ const Profile = ({id,onClose,onFilter}) => {
     <div className="marker text-[#f1c40f] text-xl">"${s.nick}"</div>
     <div className="anton text-6xl uppercase leading-none" style=${{textShadow:'4px 4px 0 #000'}}>${s.name}</div>
     <div className="text-sm mt-1">${s.stance} · ${s.years} años rodando · ${s.spot}</div>
+    ${s.ig && html`<a href=${s.ig} target="_blank" rel="noopener noreferrer" className="inline-block mt-2 text-xs font-black bg-white text-black px-2 py-1 border-2 border-black">SU INSTAGRAM ↗</a>`}
    </div>
    <div className="p-5 grid md:grid-cols-2 gap-5">
     <div>
